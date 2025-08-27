@@ -1,12 +1,23 @@
-import { Card, Table, Button, Badge } from 'react-bootstrap'
+import { Card, Table, Button, Badge, Spinner } from 'react-bootstrap'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 export default function Inventory() {
-  const rows = Array.from({ length: 8 }).map((_, i) => ({
-    sku: `SKU-${1000 + i}`,
-    name: `Product ${i + 1}`,
-    stock: Math.floor(Math.random() * 100),
-    low: 20,
-  }))
+  const [rows, setRows] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    setLoading(true)
+    axios.get('/api/inventory').then(res => {
+      const products = res.data.products?.data || []
+      setRows(products.map(p => ({
+        sku: p.sku,
+        name: p.name,
+        stock: p.stock,
+        low: p.low_stock_threshold,
+      })))
+    }).finally(() => setLoading(false))
+  }, [])
   return (
     <Card>
       <Card.Header>Inventory Management</Card.Header>
@@ -21,7 +32,11 @@ export default function Inventory() {
           </tr>
         </thead>
         <tbody>
-          {rows.map(r => (
+          {loading ? (
+            <tr><td colSpan={5} className="text-center"><Spinner size="sm" /> Loading...</td></tr>
+          ) : rows.length === 0 ? (
+            <tr><td colSpan={5} className="text-center">No items</td></tr>
+          ) : rows.map(r => (
             <tr key={r.sku}>
               <td>{r.sku}</td>
               <td>{r.name}</td>

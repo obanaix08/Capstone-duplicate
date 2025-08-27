@@ -1,16 +1,29 @@
-import { Card, Table, Badge, Form } from 'react-bootstrap'
-import { useState } from 'react'
+import { Card, Table, Badge, Form, Spinner } from 'react-bootstrap'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 export default function Orders() {
   const [status, setStatus] = useState('all')
-  const rows = Array.from({ length: 10 }).map((_, i) => ({
-    id: 1000 + i,
-    customer: `Customer ${i + 1}`,
-    date: new Date().toLocaleDateString(),
-    amount: (Math.random() * 50000 + 2000).toFixed(2),
-    status: ['pending','in_production','delivered'][i % 3],
-  }))
-  const filtered = status === 'all' ? rows : rows.filter(r => r.status === status)
+  const [rows, setRows] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const params = {}
+    if (status !== 'all') params.status = status
+    setLoading(true)
+    axios.get('/api/orders', { params }).then(res => {
+      const data = res.data.data || []
+      setRows(data.map(o => ({
+        id: o.id,
+        customer: o.customer?.name || 'N/A',
+        date: new Date(o.ordered_at || o.created_at).toLocaleDateString(),
+        amount: Number(o.total_amount).toFixed(2),
+        status: o.status,
+      })))
+    }).finally(() => setLoading(false))
+  }, [status])
+
+  const filtered = rows
   return (
     <Card>
       <Card.Header className="d-flex justify-content-between align-items-center">
@@ -27,7 +40,11 @@ export default function Orders() {
           <tr><th>#</th><th>Customer</th><th>Date</th><th>Amount</th><th>Status</th></tr>
         </thead>
         <tbody>
-          {filtered.map(r => (
+          {loading ? (
+            <tr><td colSpan={5} className="text-center"><Spinner size="sm" /> Loading...</td></tr>
+          ) : filtered.length === 0 ? (
+            <tr><td colSpan={5} className="text-center">No orders</td></tr>
+          ) : filtered.map(r => (
             <tr key={r.id}>
               <td>{r.id}</td>
               <td>{r.customer}</td>
