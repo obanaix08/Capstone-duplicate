@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Production;
 use App\Models\Product;
+use App\Models\InventoryMovement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -52,6 +53,15 @@ class ProductionController extends Controller
             $product = Product::find($production->product_id);
             if ($product) {
                 $product->increment('stock', $production->quantity);
+                InventoryMovement::create([
+                    'movable_type' => Production::class,
+                    'movable_id' => $production->id,
+                    'type' => 'in',
+                    'item_type' => 'product',
+                    'item_id' => $product->id,
+                    'quantity' => $production->quantity,
+                    'reason' => 'Production completion',
+                ]);
             }
         }
 

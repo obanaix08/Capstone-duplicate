@@ -1,11 +1,25 @@
 :root {
+  --wood-bg: #f3e5d0;
+  --wood-bg-dark: #e8d4b9;
+  --wood-grain-1: #d2b48c;
+  --wood-grain-2: #c69c6d;
+  --wood-grain-3: #a67b5b;
+  --ink: #3b3b3b;
+  --muted: #6c757d;
+  --accent: #8B5E3C;
+  --accent-2: #C69C6D;
+
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: light;
+  color: var(--ink);
+  background-color: var(--wood-bg);
+  background-image:
+    radial-gradient(ellipse at 20% 10%, rgba(166,123,91,0.12), transparent 60%),
+    radial-gradient(ellipse at 80% 30%, rgba(198,156,109,0.12), transparent 60%),
+    repeating-linear-gradient(90deg, rgba(0,0,0,0.03), rgba(0,0,0,0.03) 2px, transparent 2px, transparent 6px);
+  background-attachment: fixed;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -42,27 +56,41 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--accent);
+  color: #fff;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--accent-2);
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.wood-card.card {
+  background: linear-gradient(145deg, #fffdf9, var(--wood-bg));
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 8px 24px rgba(139,94,60,0.08), inset 0 0 0 1px rgba(255,255,255,0.4);
+}
+
+.wood-header.card-header {
+  background: linear-gradient(180deg, rgba(198,156,109,0.2), rgba(243,229,208,0.4));
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  color: var(--ink);
+}
+
+.navbar.wood-nav, .bg-wood {
+  background: linear-gradient(180deg, var(--wood-bg), #fffaf2);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.sidebar-wood {
+  background: linear-gradient(180deg, #fffaf2, var(--wood-bg));
+  border-right: 1px solid rgba(0,0,0,0.06);
+}
+
+.badge-wood {
+  background-color: var(--accent);
 }

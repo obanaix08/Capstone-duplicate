@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\ForecastController;
 use App\Http\Controllers\Api\CustomerController;
+use Illuminate\Http\Request;
 
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/register', [AuthController::class, 'register']);
@@ -38,5 +39,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('forecasting/overview', [ForecastController::class, 'overview']);
 
     Route::apiResource('customers', CustomerController::class);
+});
+
+// Public tracking endpoint (no auth)
+Route::get('/public/orders/track/{code}', function (Request $request, string $code) {
+    $order = \App\Models\Order::with(['items.product', 'customer'])->where('tracking_code', $code)->firstOrFail();
+    return response()->json([
+        'tracking_code' => $order->tracking_code,
+        'status' => $order->status,
+        'ordered_at' => $order->ordered_at,
+        'items' => $order->items,
+        'customer' => [
+            'name' => $order->customer->name,
+        ],
+    ]);
 });
 
