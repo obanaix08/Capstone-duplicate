@@ -37,8 +37,30 @@ export default function Dashboard() {
     axios.get('/api/dashboard/charts').then(res => setCharts(res.data))
   }, [])
   const barData = { labels: charts.months, datasets: [{ label: 'Production', data: charts.production, backgroundColor: '#8B5E3C' }] }
-  const lineData = { labels: charts.months, datasets: [{ label: 'Sales', data: charts.sales, borderColor: '#0d6efd' }] }
-  const pieData = { labels: charts.topSelling.map(t => `#${t.product_id}`), datasets: [{ data: charts.topSelling.map(t => t.qty), backgroundColor: ['#8B5E3C','#C69C6D','#5C4033','#A67B5B','#D2B48C'] }] }
+  const lineData = { labels: charts.months, datasets: [{ label: 'Sales', data: charts.sales, borderColor: '#0d6efd', backgroundColor: 'rgba(13,110,253,0.15)', fill: true, tension: 0.35, pointRadius: 2 }] }
+  const pieData = { labels: charts.topSelling.map(t => `#${t.product_id}`), datasets: [{ data: charts.topSelling.map(t => t.qty), backgroundColor: ['#8B5E3C','#C69C6D','#5C4033','#A67B5B','#D2B48C'], borderColor: '#ffffff', borderWidth: 2 }] }
+
+  const baseGridColor = 'rgba(108,117,125,0.2)'
+  const baseTickColor = '#6c757d'
+  const baseLegendColor = '#495057'
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { color: baseLegendColor, usePointStyle: true, boxWidth: 8 } },
+      tooltip: { mode: 'index', intersect: false, backgroundColor: '#212529', titleColor: '#fff', bodyColor: '#f8f9fa', borderColor: '#343a40', borderWidth: 1 }
+    },
+    scales: {
+      x: { grid: { color: baseGridColor, drawBorder: false }, ticks: { color: baseTickColor } },
+      y: { grid: { color: baseGridColor, drawBorder: false }, ticks: { color: baseTickColor }, beginAtZero: true }
+    }
+  }
+  const pieOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { color: baseLegendColor, usePointStyle: true, boxWidth: 8 } }, tooltip: { backgroundColor: '#212529', titleColor: '#fff', bodyColor: '#f8f9fa', borderColor: '#343a40', borderWidth: 1 } },
+    cutout: '45%'
+  }
 
   return (
     <>
@@ -53,16 +75,16 @@ export default function Dashboard() {
         <Col md={8} className="mb-3">
           <Card>
             <Card.Header>Monthly Production Output</Card.Header>
-            <Card.Body>
-              <Bar data={barData} />
+            <Card.Body style={{height:300}}>
+              <Bar data={barData} options={{...chartOptions, datasets: { bar: { borderRadius: 6 } }}} />
             </Card.Body>
           </Card>
         </Col>
         <Col md={4} className="mb-3">
           <Card>
             <Card.Header>Top Selling Products</Card.Header>
-            <Card.Body>
-              <Pie data={pieData} />
+            <Card.Body style={{height:300}}>
+              <Pie data={pieData} options={pieOptions} />
             </Card.Body>
           </Card>
         </Col>
@@ -72,8 +94,8 @@ export default function Dashboard() {
         <Col>
           <Card>
             <Card.Header>Sales Trend</Card.Header>
-            <Card.Body>
-              <Line data={lineData} />
+            <Card.Body style={{height:300}}>
+              <Line data={lineData} options={chartOptions} />
             </Card.Body>
           </Card>
         </Col>
