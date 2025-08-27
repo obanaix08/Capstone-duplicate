@@ -1,4 +1,6 @@
-import { Row, Col, Card, Table } from 'react-bootstrap'
+import { Row, Col, Card, Table, Badge } from 'react-bootstrap'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 import { Bar, Line, Pie } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
@@ -23,6 +25,13 @@ const card = (title, value, variant = 'primary') => (
 )
 
 export default function Dashboard() {
+  const [lowStock, setLowStock] = useState({ products: [], materials: [] })
+  const [forecast, setForecast] = useState({ alerts: [] })
+
+  useEffect(() => {
+    axios.get('/api/inventory/low-stock').then(res => setLowStock(res.data))
+    axios.get('/api/forecasting/overview').then(res => setForecast(res.data))
+  }, [])
   const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
   const barData = { labels: months, datasets: [{ label: 'Production', data: months.map(() => Math.floor(Math.random()*100)+20), backgroundColor: '#8B5E3C' }] }
   const lineData = { labels: months, datasets: [{ label: 'Sales', data: months.map(() => Math.floor(Math.random()*50000)+5000), borderColor: '#0d6efd' }] }
@@ -88,8 +97,23 @@ export default function Dashboard() {
             <Card.Header>Low Stock Alerts</Card.Header>
             <Table size="sm" className="mb-0">
               <tbody>
-                {['Plywood','Varnish','Screws','Glue','Paint'].map((m,i)=> (
-                  <tr key={i}><td>{m}</td><td className="text-danger">Low</td></tr>
+                {lowStock.materials.slice(0,5).map((m)=> (
+                  <tr key={m.id}><td>{m.name}</td><td><Badge bg="danger">Low</Badge></td></tr>
+                ))}
+              </tbody>
+            </Table>
+          </Card>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Card>
+            <Card.Header>Upcoming Replenishment Alerts (<= 7 days)</Card.Header>
+            <Table size="sm" className="mb-0">
+              <thead><tr><th>Material</th><th>Days Left</th><th>Suggested Reorder</th></tr></thead>
+              <tbody>
+                {forecast.alerts?.map((a)=> (
+                  <tr key={a.id}><td>{a.name}</td><td><Badge bg={a.predicted_days_until_depletion<=3?'danger':'warning'}>{a.predicted_days_until_depletion}</Badge></td><td>{a.suggested_reorder_qty}</td></tr>
                 ))}
               </tbody>
             </Table>

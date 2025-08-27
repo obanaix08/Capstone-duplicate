@@ -15,6 +15,7 @@ class Order extends Model
         'total_amount',
         'ordered_at',
         'delivered_at',
+        'tracking_code',
     ];
 
     protected $casts = [

@@ -50,6 +50,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('customer_id')->constrained()->cascadeOnDelete();
             $table->string('status')->default('pending');
+            $table->string('tracking_code')->unique()->nullable();
             $table->decimal('total_amount', 12, 2)->default(0);
             $table->timestamp('ordered_at')->nullable();
             $table->timestamp('delivered_at')->nullable();
