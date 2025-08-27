@@ -18,9 +18,10 @@ export default function Inventory() {
       })))
     }).finally(() => setLoading(false))
   }, [])
+
   return (
-    <Card>
-      <Card.Header>Inventory Management</Card.Header>
+    <Card className="wood-card">
+      <Card.Header className="wood-header">Inventory Management</Card.Header>
       <Table hover responsive className="mb-0">
         <thead>
           <tr>

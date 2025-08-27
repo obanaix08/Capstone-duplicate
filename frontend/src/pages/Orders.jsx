@@ -25,8 +25,8 @@ export default function Orders() {
 
   const filtered = rows
   return (
-    <Card>
-      <Card.Header className="d-flex justify-content-between align-items-center">
+    <Card className="wood-card">
+      <Card.Header className="d-flex justify-content-between align-items-center wood-header">
         <div>Order Management</div>
         <Form.Select onChange={e => setStatus(e.target.value)} value={status} style={{width:220}} size="sm">
           <option value="all">All statuses</option>

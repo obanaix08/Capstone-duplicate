@@ -16,7 +16,7 @@ import {
 ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, ArcElement, Tooltip, Legend)
 
 const card = (title, value, variant = 'primary') => (
-  <Card className="mb-3">
+  <Card className="mb-3 wood-card">
     <Card.Body>
       <div className="text-muted small">{title}</div>
       <div className="fs-3 fw-semibold text-{variant}">{value}</div>
@@ -73,16 +73,16 @@ export default function Dashboard() {
 
       <Row className="mb-3">
         <Col md={8} className="mb-3">
-          <Card>
-            <Card.Header>Monthly Production Output</Card.Header>
+          <Card className="wood-card">
+            <Card.Header className="wood-header">Monthly Production Output</Card.Header>
             <Card.Body style={{height:300}}>
               <Bar data={barData} options={{...chartOptions, datasets: { bar: { borderRadius: 6 } }}} />
             </Card.Body>
           </Card>
         </Col>
         <Col md={4} className="mb-3">
-          <Card>
-            <Card.Header>Top Selling Products</Card.Header>
+          <Card className="wood-card">
+            <Card.Header className="wood-header">Top Selling Products</Card.Header>
             <Card.Body style={{height:300}}>
               <Pie data={pieData} options={pieOptions} />
             </Card.Body>
@@ -92,8 +92,8 @@ export default function Dashboard() {
 
       <Row className="mb-3">
         <Col>
-          <Card>
-            <Card.Header>Sales Trend</Card.Header>
+          <Card className="wood-card">
+            <Card.Header className="wood-header">Sales Trend</Card.Header>
             <Card.Body style={{height:300}}>
               <Line data={lineData} options={chartOptions} />
             </Card.Body>
@@ -103,8 +103,8 @@ export default function Dashboard() {
 
       <Row>
         <Col md={8} className="mb-3">
-          <Card>
-            <Card.Header>Recent Orders</Card.Header>
+          <Card className="wood-card">
+            <Card.Header className="wood-header">Recent Orders</Card.Header>
             <Table striped hover responsive className="mb-0">
               <thead>
                 <tr><th>Customer</th><th>Amount</th><th>Date</th><th>Status</th></tr>
@@ -118,8 +118,8 @@ export default function Dashboard() {
           </Card>
         </Col>
         <Col md={4} className="mb-3">
-          <Card>
-            <Card.Header>Low Stock Alerts</Card.Header>
+          <Card className="wood-card">
+            <Card.Header className="wood-header">Low Stock Alerts</Card.Header>
             <Table size="sm" className="mb-0">
               <tbody>
                 {lowStock.materials.slice(0,5).map((m)=> (
@@ -132,8 +132,8 @@ export default function Dashboard() {
       </Row>
       <Row>
         <Col>
-          <Card>
-            <Card.Header>Upcoming Replenishment Alerts (<= 7 days)</Card.Header>
+          <Card className="wood-card">
+            <Card.Header className="wood-header">Upcoming Replenishment Alerts (<= 7 days)</Card.Header>
             <Table size="sm" className="mb-0">
               <thead><tr><th>Material</th><th>Days Left</th><th>Suggested Reorder</th></tr></thead>
               <tbody>

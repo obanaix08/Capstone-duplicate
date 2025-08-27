@@ -21,8 +21,8 @@ export default function Productions() {
     }).finally(() => setLoading(false))
   }, [])
   return (
-    <Card>
-      <Card.Header>Production Tracking</Card.Header>
+    <Card className="wood-card">
+      <Card.Header className="wood-header">Production Tracking</Card.Header>
       <Table responsive hover className="mb-0">
         <thead>
           <tr><th>Batch</th><th>Product</th><th>Qty</th><th>Progress</th><th>ETA</th><th></th></tr>

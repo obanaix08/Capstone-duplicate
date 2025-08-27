@@ -33,12 +33,12 @@ export default function Forecasting() {
   return (
     <>
       <Row className="mb-3">
-        <Col md={8}><Card><Card.Header>Material Depletion Forecast</Card.Header><Table size="sm" className="mb-0"><thead><tr><th>Code</th><th>Name</th><th>Stock</th><th>Avg Daily Use</th><th>Days Left</th><th>Suggested Reorder</th></tr></thead><tbody>{materials.map(m => (<tr key={m.id}><td>{m.code}</td><td>{m.name}</td><td>{m.stock}</td><td>{m.avg_daily_consumption}</td><td><Badge bg={m.predicted_days_until_depletion<=7?'danger':(m.predicted_days_until_depletion<=14?'warning':'success')}>{m.predicted_days_until_depletion}</Badge></td><td>{m.suggested_reorder_qty}</td></tr>))}</tbody></Table></Card></Col>
-        <Col md={4}><Card><Card.Header>Sales Forecast (3 Months)</Card.Header><Card.Body style={{height:260}}><Bar data={salesForecast} options={chartOptions} /></Card.Body></Card></Col>
+        <Col md={8}><Card className="wood-card"><Card.Header className="wood-header">Material Depletion Forecast</Card.Header><Table size="sm" className="mb-0"><thead><tr><th>Code</th><th>Name</th><th>Stock</th><th>Avg Daily Use</th><th>Days Left</th><th>Suggested Reorder</th></tr></thead><tbody>{materials.map(m => (<tr key={m.id}><td>{m.code}</td><td>{m.name}</td><td>{m.stock}</td><td>{m.avg_daily_consumption}</td><td><Badge bg={m.predicted_days_until_depletion<=7?'danger':(m.predicted_days_until_depletion<=14?'warning':'success')}>{m.predicted_days_until_depletion}</Badge></td><td>{m.suggested_reorder_qty}</td></tr>))}</tbody></Table></Card></Col>
+        <Col md={4}><Card className="wood-card"><Card.Header className="wood-header">Sales Forecast (3 Months)</Card.Header><Card.Body style={{height:260}}><Bar data={salesForecast} options={chartOptions} /></Card.Body></Card></Col>
       </Row>
       <Row className="mb-3">
-        <Col md={8}><Card><Card.Header>Material Replenishment Forecast</Card.Header><Table size="sm" className="mb-0"><thead><tr><th>Material</th><th>Current</th><th>Suggested Reorder</th></tr></thead><tbody>{materials.slice(0,8).map((m)=>(<tr key={m.id}><td>{m.name}</td><td>{m.stock}</td><td>{m.suggested_reorder_qty}</td></tr>))}</tbody></Table></Card></Col>
-        <Col md={4}><Card><Card.Header>Production Capacity Planning</Card.Header><Card.Body style={{height:260}}><Bar data={capacity} options={chartOptions} /></Card.Body></Card></Col>
+        <Col md={8}><Card className="wood-card"><Card.Header className="wood-header">Material Replenishment Forecast</Card.Header><Table size="sm" className="mb-0"><thead><tr><th>Material</th><th>Current</th><th>Suggested Reorder</th></tr></thead><tbody>{materials.slice(0,8).map((m)=>(<tr key={m.id}><td>{m.name}</td><td>{m.stock}</td><td>{m.suggested_reorder_qty}</td></tr>))}</tbody></Table></Card></Col>
+        <Col md={4}><Card className="wood-card"><Card.Header className="wood-header">Production Capacity Planning</Card.Header><Card.Body style={{height:260}}><Bar data={capacity} options={chartOptions} /></Card.Body></Card></Col>
       </Row>
     </>
   )

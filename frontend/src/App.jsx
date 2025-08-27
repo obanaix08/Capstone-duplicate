@@ -14,7 +14,7 @@ import Login from './pages/Login'
 function App() {
   return (
     <div className="d-flex">
-      <div className="bg-light border-end" style={{ width: 240, minHeight: '100vh' }}>
+      <div className="sidebar-wood border-end" style={{ width: 240, minHeight: '100vh' }}>
         <div className="p-3 fw-bold">Unick OPS</div>
         <Nav className="flex-column px-2">
           <Nav.Link as={Link} to="/">Dashboard</Nav.Link>
@@ -28,7 +28,7 @@ function App() {
         </Nav>
       </div>
       <div className="flex-grow-1">
-        <Navbar bg="white" className="border-bottom">
+        <Navbar className="wood-nav">
           <Container>
             <Navbar.Brand>Operations Dashboard</Navbar.Brand>
             <Nav>
